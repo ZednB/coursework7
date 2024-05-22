@@ -8,6 +8,10 @@ class HabitCreateApiView(generics.CreateAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
 
+    def perform_create(self, serializer):
+        user = serializer.save(user=self.request.user)
+        user.save()
+
 
 class HabitListApiView(generics.ListAPIView):
     queryset = Habit.objects.all()
