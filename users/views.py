@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from rest_framework import generics
+from rest_framework.permissions import IsAdminUser, AllowAny
 
 from users.models import User
+from users.permissions import IsOwner
 from users.serializers import UserSerializer
 
 
 class UserCreateApiView(generics.CreateAPIView):
-    queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
         user = serializer.save(is_active=True)
@@ -18,18 +20,22 @@ class UserCreateApiView(generics.CreateAPIView):
 class UserListApiView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
 
 
 class UserRetrieveApiView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAdminUser, IsOwner]
 
 
 class UserUpdateApiView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsOwner]
 
 
 class UserDestroyApiView(generics.DestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAdminUser, IsOwner]
