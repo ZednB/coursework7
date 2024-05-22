@@ -26,21 +26,6 @@ class Habit(models.Model):
     def __str__(self):
         return f"{self.user} - {self.action}, {self.place}"
 
-    def clean(self):
-        validators = [
-            RewardOrRelatedValidator(),
-            TimeValidator(),
-            LinkedAndIsPleasantValidator(),
-            PleasantHabitValidator(),
-            PeriodicityValidator()
-        ]
-        for validator in validators:
-            validator(self)
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
-
     class Meta:
         verbose_name = 'Привычка'
         verbose_name_plural = 'Привычки'
