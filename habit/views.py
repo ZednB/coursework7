@@ -41,4 +41,4 @@ class HabitDestroyApiView(generics.DestroyAPIView):
     """Контроллер для удаления привычки"""
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
-    permission_classes = [IsAdminUser, IsOwner]
+    permission_classes = [IsAuthenticated, IsOwner]

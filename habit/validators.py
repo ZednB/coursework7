@@ -35,7 +35,7 @@ class PleasantHabitValidator:
 
 class PeriodicityValidator:
     def __call__(self, habit):
-        if habit.get('periodicity') > 7:
+        if habit.get('periodicity') is not None and habit.get('periodicity') > 7:
             raise ValidationError(
                 "Нельзя выполнять привычку реже, чем 1 раз в 7 дней."
             )
