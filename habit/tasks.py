@@ -19,7 +19,10 @@ def send_note():
     for habit in habits:
         if habit.time >= time_now - timedelta(minutes=10):
             message = (f"Не забудьте через 10 минут выполнить {habit.action}\n"
-                       f"После этого {habit.habits if habit.habits else habit.reward}")
-            send_message(chat_id=habit.user.tg_id, message=message)
-            logger.info(f'{habit.user.tg_id}: {message}')
-            print(logger.info(f'{habit.user.tg_id}: {message}'))
+                       f"После этого {habit.linked_habit if habit.linked_habit else habit.reward}")
+            try:
+                send_message(chat_id=habit.user.tg_id, message=message)
+                logger.info(f'{habit.user.tg_id}: {message}')
+                print(logger.info(f'{habit.user.tg_id}: {message}'))
+            except Exception as e:
+                logging.error(f"{habit.user.tg_id} - {e}")
